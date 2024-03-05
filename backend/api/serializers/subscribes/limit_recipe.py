@@ -6,7 +6,8 @@ class LimitSerialisers(serializers.Serializer):
 
     def validate(self, attrs):
         try:
-            recipes_limit = int(self.context['request'].query_params['recipes_limit'])
+            recipes_limit = int(
+                self.context['request'].query_params['recipes_limit'])
             if recipes_limit < 1:
                 recipes_limit = 1
         except (ValueError, MultiValueDictKeyError):

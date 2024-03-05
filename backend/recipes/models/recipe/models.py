@@ -1,5 +1,4 @@
 from django.db import models
-
 from recipes.models.ingredient.models import Ingredient
 
 

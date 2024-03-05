@@ -1,7 +1,11 @@
-from rest_framework import serializers
 
+import base64, uuid
+from django.core.files.base import ContentFile
+from rest_framework import serializers
+from drf_extra_fields.fields import Base64ImageField
 from recipes.models import Recipe, IngredientWithAmount, Tag, Subscription
-from users.models import User
+import psycopg2
+from PIL import Image
 
 class IngredientWithAmountSerializer(serializers.ModelSerializer):
     id = serializers.CharField(source='ingredient.id')
@@ -32,3 +36,7 @@ class CreatingRecipeSerializer(serializers.ModelSerializer):
             'text',
             'cooking_time'
         )
+
+class ImgSerializer(serializers.Serializer):
+    image = Base64ImageField(required=False)
+

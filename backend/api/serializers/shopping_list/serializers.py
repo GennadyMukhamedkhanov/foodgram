@@ -40,7 +40,7 @@ class ShoppingListDeleteSerializer(serializers.ModelSerializer):
         return ShoppingList.objects.create(**validated_data)
 
 
-class SearchObjectrRecipe(serializers.Serializer):
+class SearchObjectrRecipeSerializer(serializers.Serializer):
     id = serializers.IntegerField()
 
     def validate(self, attrs):
@@ -61,7 +61,7 @@ class SearchObjectrRecipe(serializers.Serializer):
         return get_object_or_404(Recipe, id=self.initial_data['id'])
 # Todo можно ли делать через initial_data?
 
-class SearchRecipe(serializers.Serializer):
+class SearchRecipeSerializer(serializers.Serializer):
     id = serializers.IntegerField()
 
     def validate(self, attrs):

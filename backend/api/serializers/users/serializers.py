@@ -60,10 +60,10 @@ class TokenObject(serializers.Serializer):
 
 class UserChangePassword(serializers.Serializer):
     id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    password = serializers.CharField()
+    current_password = serializers.CharField()
 
     def validate(self, attrs):
         obj_user = attrs['id']
-        if not obj_user.check_password(attrs['password']):
+        if not obj_user.check_password(attrs['current_password']):
             raise ValidationError('Incorrect password')
         return attrs

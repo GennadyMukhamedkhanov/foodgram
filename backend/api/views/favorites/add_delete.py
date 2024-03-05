@@ -4,10 +4,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.serializers.favorite.serializers import FavoriteSerializer
-from api.services.favorites import FavoriteAddService, FavoriteDeleteService
+from api.services.favorites.add import FavoriteAddService
+from api.services.favorites.delete import FavoriteDeleteService
 
 
-class FavoriteView(APIView):
+class FavoriteAddDeleteView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, **kwargs):
         data = FavoriteAddService.execute({
