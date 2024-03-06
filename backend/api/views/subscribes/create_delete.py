@@ -11,9 +11,9 @@ from api.serializers.subscribes.serializers import (
 from recipes.models import Subscription
 
 
-
 class SubscribeCreateDeleteView(APIView):
     permission_classes = [IsAuthenticated]
+
     def post(self, request, **kwargs):
         limit = LimitSerialisers(data={}, context={'request': request})
         limit.is_valid(raise_exception=True)

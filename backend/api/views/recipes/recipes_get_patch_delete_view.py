@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,22 +8,23 @@ from service_objects.errors import InvalidInputsError
 
 from api.permissions.recipes import IsAuthor
 from api.serializers.recipes.creating_recipe_serializers import (
-    CreatingRecipeSerializer)
+    CreatingRecipeSerializer
+)
 from api.serializers.recipes.recipes_list_serializers import (
-    RecipesListSerializers)
+    RecipesListSerializers
+)
 from api.services.recipes.get import RecipeGetService
 from api.services.recipes.delete import RecipesDeleteService
 from api.services.recipes.patch import RecipesPatchService
 from recipes.models import Recipe
 
 
-
 class RecipesGetPatchDeleteView(APIView):
     def get(self, request, **kwargs):
         data = get_object_or_404(Recipe, id=kwargs['id'])
-
         return Response(
-            RecipesListSerializers(data, context={'request': request}).data)
+            RecipesListSerializers(data, context={'request': request}).data
+        )
 
     def patch(self, request, **kwargs):
         self.permission_classes = [IsAuthenticated, IsAuthor]
@@ -32,7 +34,6 @@ class RecipesGetPatchDeleteView(APIView):
             request=request,
             obj=recipe_obj
         )
-
         try:
             data = RecipesPatchService.execute(
                 {
@@ -50,8 +51,11 @@ class RecipesGetPatchDeleteView(APIView):
             )
         except InvalidInputsError as error:
             return Response(error.errors, status=status.HTTP_400_BAD_REQUEST)
-        serializer = CreatingRecipeSerializer(data).data
-        return Response(serializer)
+        except ValidationError as error:
+            return Response({
+                'error': error.detail
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response(CreatingRecipeSerializer(data).data)
 
     def delete(self, request, **kwargs):
         self.permission_classes = [IsAuthenticated, IsAuthor]

@@ -4,20 +4,20 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.serializers.favorite.serializers import FavoriteSerializer
-from api.services.favorites.add import FavoriteAddService
+from api.services.favorites.add import FavoriteCreateService
 from api.services.favorites.delete import FavoriteDeleteService
 
 
-class FavoriteAddDeleteView(APIView):
+class FavoriteCreateDeleteView(APIView):
     permission_classes = [IsAuthenticated]
+
     def post(self, request, **kwargs):
-        data = FavoriteAddService.execute({
+        result = FavoriteCreateService.execute({
             'user': request.user,
             'recipe_id': kwargs['id'],
         })
-        serializer = FavoriteSerializer(data).data
         return Response(
-            serializer,
+            FavoriteSerializer(result).data,
             status=status.HTTP_201_CREATED
         )
 
@@ -27,4 +27,3 @@ class FavoriteAddDeleteView(APIView):
             'recipe_id': kwargs['id'],
         })
         return Response(status=status.HTTP_204_NO_CONTENT)
-

@@ -11,8 +11,7 @@ class IngredientsGetView(APIView):
     def get(self, request, **kwargs):
         try:
             ingredients = IngredientsGetService.execute(kwargs)
-            serializer = IngredientSerialisers(ingredients).data
-            return Response(serializer)
+            return Response(IngredientSerialisers(ingredients).data)
         except ValidationError as error:
             return Response({
                 'error': error.detail

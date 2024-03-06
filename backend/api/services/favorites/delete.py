@@ -9,24 +9,28 @@ from recipes.models import Favourite, Recipe
 from users.models import User
 
 
-
 class FavoriteDeleteService(Service):
     user = ModelField(User)
     recipe_id = forms.IntegerField()
 
     def process(self):
-        self.check_obj_favorite()
+        self.favorite = self.check_obj_favorite()
+        self.delete_favorite()
+        return self
 
-        return 1
+    def delete_favorite(self):
+        self.favorite.delete()
 
-    @lru_cache()
     def get_recipe_object(self):
-        return get_object_or_404(Recipe,
-                                 id=self.cleaned_data['recipe_id'])
+        return get_object_or_404(
+            Recipe, id=self.cleaned_data['recipe_id']
+        )
 
     def check_obj_favorite(self):
-        favorite = Favourite.objects.filter(recipe=self.get_recipe_object(),
-                                            user=self.cleaned_data['user'])
+        favorite = Favourite.objects.filter(
+            recipe=self.get_recipe_object(),
+            user=self.cleaned_data['user']
+        )
         if not favorite.exists():
             raise ValidationError('Рецепта нет в избранном')
-        favorite.first().delete()
+        return favorite.first()

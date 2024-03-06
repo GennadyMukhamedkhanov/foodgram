@@ -9,7 +9,6 @@ from api.serializers.recipes.recipes_list_serializers import (
     RecipesListSerializers)
 
 
-
 class RecipesListAddView(APIView):
     def get(self, request):
         data = RecipesListService.execute({})

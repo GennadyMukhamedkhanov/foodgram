@@ -3,11 +3,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.serializers.shopping_list.serializers import (SearchObjectrRecipeSerializer,
-                                                       ShoppingListAddSerializer,
-                                                       ShoppingListDeleteSerializer,
-                                                       RecipeSerializer,
-                                                       SearchRecipeSerializer)
+from api.serializers.shopping_list.serializers import (
+    SearchObjectrRecipeSerializer,
+    ShoppingListAddSerializer,
+    ShoppingListDeleteSerializer,
+    RecipeSerializer,
+    SearchRecipeSerializer
+)
 
 
 class ShoppingListAddDeleteView(APIView):
@@ -42,4 +44,3 @@ class ShoppingListAddDeleteView(APIView):
         serializers.is_valid(raise_exception=True)
         recipe.validated_data['search_obj'].delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-

@@ -2,9 +2,8 @@ from django.db import models
 
 
 class Ingredient(models.Model):
-    name = models.CharField(verbose_name='Название', max_length=50)
-    measurement_unit = models.CharField(verbose_name='Единица измерения',
-                                        max_length=10)
+    name = models.CharField(verbose_name='Название', max_length=255)
+    measurement_unit = models.CharField(verbose_name='Единица измерения', max_length=255)
 
     def __str__(self):
         return f'{self.name}'

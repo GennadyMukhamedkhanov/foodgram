@@ -24,6 +24,6 @@ class SubscribeListView(APIView):
         serializer = SubscriptionSerializers(
             paginated_queryset, many=True,
             context=(
-            {'recipes_limit': limit.validated_data['recipes_limit']})).data
+                {'recipes_limit': limit.validated_data['recipes_limit']})).data
 
         return Response(serializer, status=status.HTTP_200_OK)

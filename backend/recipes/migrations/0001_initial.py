@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
             name='Ingredient',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, verbose_name='Название')),
-                ('measurement_unit', models.CharField(max_length=10, verbose_name='Единица измерения')),
+                ('name', models.CharField(max_length=255, verbose_name='Название')),
+                ('measurement_unit', models.CharField(max_length=255, verbose_name='Единица измерения')),
             ],
             options={
                 'verbose_name': 'Ингредиент',

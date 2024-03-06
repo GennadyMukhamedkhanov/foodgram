@@ -9,7 +9,7 @@ from recipes.models import Favourite, Recipe
 from users.models import User
 
 
-class FavoriteAddService(Service):
+class FavoriteCreateService(Service):
     user = ModelField(User)
     recipe_id = forms.IntegerField()
 
@@ -20,13 +20,15 @@ class FavoriteAddService(Service):
     def create_favorite(self):
         favorite_obj = Favourite.objects.create(
             recipe=self.get_recipe_object(),
-            user=self.cleaned_data['user'])
+            user=self.cleaned_data['user']
+        )
         return favorite_obj
 
     @lru_cache()
     def get_recipe_object(self):
-        return get_object_or_404(Recipe,
-                                 id=self.cleaned_data['recipe_id'])
+        return get_object_or_404(
+            Recipe, id=self.cleaned_data['recipe_id']
+        )
 
     def check_obj_favorite(self):
         favorite = Favourite.objects.filter(
@@ -35,4 +37,3 @@ class FavoriteAddService(Service):
         )
         if favorite.exists():
             raise ValidationError('Рецепт уже в избранном')
-

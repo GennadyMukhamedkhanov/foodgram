@@ -9,5 +9,7 @@ from api.services.ingredients.list import IngredientsListService
 class IngredientsListView(APIView):
     def get(self, request):
         ingredients = IngredientsListService.execute(request.query_params)
-        serializer = IngredientSerialisers(ingredients, many=True).data
-        return Response(serializer, status=status.HTTP_200_OK)
+        return Response(
+            IngredientSerialisers(ingredients, many=True).data,
+            status=status.HTTP_200_OK
+        )
