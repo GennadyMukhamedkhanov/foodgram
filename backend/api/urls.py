@@ -20,7 +20,7 @@ from api.views.users.personal_profile import PersonalProfileView
 from api.views.users.profile_by_id import UserProfileView
 from api.views.users.set_password import SetPasswordView
 
-# Gena 111
+# Gena 123
 urlpatterns = [
     # Users+
     path('users/', UserListCreateView.as_view()),
