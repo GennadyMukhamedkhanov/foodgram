@@ -1,5 +1,27 @@
 version: '3.3'
 services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    command: >  
+     bash -c "python manage.py migrate && gunicorn -b 0.0.0.0:8000 conf.wsgi"
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=database
+      - DB_NAME=dbname
+      - DB_USER=dbuser
+      - DB_PASS=pass
+    depends_on:
+      - database
+
+  database:
+    image: postgres:14.6-alpine
+    environment:
+      - POSTGRES_DB=genadb
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=pass
 
 
   frontend:
