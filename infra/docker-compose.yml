@@ -16,6 +16,10 @@ services:
     depends_on:
       - database
 
+    volumes:
+      - "../backend:/backend"
+      - media_volume:/backend/uploads
+
   database:
     image: postgres:14.6-alpine
     environment:
@@ -40,6 +44,12 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
       - ../docs/:/usr/share/nginx/html/api/docs/
+      - media_volume:/var/uploads
+
+  #api
+  #admin
+  #static
+  #media_file
 
 
 volumes:
